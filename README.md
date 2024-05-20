@@ -1,5 +1,6 @@
 # Dotfiles
-Just my configs for new systems.
+Basic configurations for me.
+
 ## Steps to follow
 - [ ] Install homebrew
 - [ ] Install following items using brew:
@@ -11,6 +12,7 @@ Just my configs for new systems.
       - go
       - fzf
       - zsh
+      - alacritty
       - jq
 
 - [ ] Install oh-my-zsh
@@ -18,3 +20,7 @@ Just my configs for new systems.
 - [ ] update `.zprofile` with the homebrew path
 - [ ] Clone this repo in home path (`~`)
 - [ ] Go to `dotfiles` and do `stow .`
+
+# TODO
+- [ ] Remove oh-my-zsh as a dependency
+- [ ] Fix neovim configurations
