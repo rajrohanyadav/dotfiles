@@ -14,9 +14,11 @@ Basic configurations for me.
       - zsh
       - alacritty
       - jq
+      - oh-my-posh
 
 - [ ] Install oh-my-zsh
-- [ ] Install power10k theme, zsh plugins from github
+- [ ] Install oh-my-posh
+- [ ] Install zsh plugins from github
 - [ ] update `.zprofile` with the homebrew path
 - [ ] Clone this repo in home path (`~`)
 - [ ] Go to `dotfiles` and do `stow .`
