@@ -1,0 +1,7 @@
+alias dkr=docker
+dkrkill() {
+  docker stop "$1" && docker rm "$1"
+}
+dkrbash() {
+  docker exec -it "$1" bash
+}

@@ -1,0 +1,5 @@
+source ~/.config/aliases/sqles_aliases
+source ~/.config/aliases/docker_aliases
+source ~/.config/aliases/git_aliases
+source ~/.config/aliases/common_aliases
+

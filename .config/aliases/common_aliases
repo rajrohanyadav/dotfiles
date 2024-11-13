@@ -1,0 +1,6 @@
+alias vim=nvim
+alias vg=vagrant
+alias kc=kubectl
+alias dcomu='docker compose up -d'
+alias dcomd='docker compose down'
+alias ll='ls -latr'
