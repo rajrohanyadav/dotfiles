@@ -1,4 +1,8 @@
 alias dkr=docker
+dkrkillall() {
+  docker stop $(docker ps -a -q)
+  docker rm $(docker ps -a -q)
+}
 dkrkill() {
   docker stop "$1" && docker rm "$1"
 }

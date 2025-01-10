@@ -4,3 +4,8 @@ alias kc=kubectl
 alias dcomu='docker compose up -d'
 alias dcomd='docker compose down'
 alias ll='ls -latr'
+# vagrant
+alias vgu='vg up --provider=parallels'
+alias vgd='vg destroy'
+alias vgdf='vg destroy -f'
+
