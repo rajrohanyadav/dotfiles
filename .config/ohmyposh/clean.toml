@@ -1,8 +1,16 @@
-#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
-
-version = 2
-final_space = true
 console_title_template = '{{ .Shell }} in {{ .Folder }}'
+version = 3
+final_space = true
+
+[secondary_prompt]
+  template = '❯❯ '
+  foreground = 'magenta'
+  background = 'transparent'
+
+[transient_prompt]
+  template = '❯ '
+  background = 'transparent'
+  foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']
 
 [[blocks]]
   type = 'prompt'
@@ -10,30 +18,35 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline = true
 
   [[blocks.segments]]
-    type = "os"
-    template = "{{.Icon}} "
-    style = "plain"
-    foreground = "#26C6DA"
-
-  [[blocks.segments]]
-    type = 'path'
+    template = '{{.Icon}} '
+    foreground = '#26C6DA'
+    type = 'os'
     style = 'plain'
-    background = 'transparent'
-    foreground = 'blue'
-    template = '{{ .Path }}'
 
     [blocks.segments.properties]
+      cache_duration = 'none'
+
+  [[blocks.segments]]
+    template = '{{ .Path }}'
+    foreground = 'blue'
+    background = 'transparent'
+    type = 'path'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
       style = 'full'
 
   [[blocks.segments]]
+    template = ' {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+    foreground = '#B7BDF8'
+    background = 'transparent'
     type = 'git'
     style = 'plain'
-    foreground = "#B7BDF8"
-    background = 'transparent'
-    template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0c7 {{ .StashCount }}{{ end }} "
 
     [blocks.segments.properties]
-      branch_icon = ""
+      branch_icon = ''
+      cache_duration = 'none'
       commit_icon = '@'
       fetch_stash_count = true
       fetch_status = true
@@ -45,43 +58,66 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   overflow = 'hidden'
 
   [[blocks.segments]]
-    type = 'executiontime'
-    style = 'plain'
+    template = '{{ .FormattedMs }}'
     foreground = 'yellow'
     background = 'transparent'
-    template = '{{ .FormattedMs }}'
+    type = 'executiontime'
+    style = 'plain'
 
     [blocks.segments.properties]
+      cache_duration = 'none'
       threshold = 5000
 
   [[blocks.segments]]
-    type = "python"
-    style = "plain"
-    foreground = "#e0eee3"
-    background = "transparent"
-    template = "  {{ .Full }} "
-
-  [[blocks.segments]]
-    type = "go"
-    style = "plain"
-    foreground = "#7FD5EA"
-    background = "transparent"
-    template = " \ue627 {{ .Full }} "
-
-  [[blocks.segments]]
-    type = "battery"
-    style = "plain"
-    foreground = "#193549"
-    background = "transparent"
-    foreground_templates = [
-      "{{if gt .Percentage 40}}green{{end}}",
-      "{{if lt .Percentage 40}}red{{end}}",
-    ]
-    template = " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }} "
+    template = '  {{ .Full }} '
+    foreground = '#e0eee3'
+    background = 'transparent'
+    type = 'python'
+    style = 'plain'
 
     [blocks.segments.properties]
-      charging_icon = " "
-      charged_icon = " "
+      cache_duration = 'none'
+
+  [[blocks.segments]]
+    template = '  {{ .Full }} '
+    foreground = '#7FD5EA'
+    background = 'transparent'
+    type = 'go'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
+
+  [[blocks.segments]]
+    template = '  {{ .Full }} '
+    foreground = '#ce412b'
+    background = 'transparent'
+    type = 'rust'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
+
+  [[blocks.segments]]
+    foreground = '#007ACC'
+    type = 'time'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
+
+  [[blocks.segments]]
+    template = ' {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }} '
+    foreground = '#193549'
+    background = 'transparent'
+    type = 'battery'
+    style = 'plain'
+    foreground_templates = ['{{if gt .Percentage 40}}green{{end}}', '{{if lt .Percentage 40}}red{{end}}']
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
+      charged_icon = ' '
+      charging_icon = ' '
 
 [[blocks]]
   type = 'prompt'
@@ -89,24 +125,11 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline = true
 
   [[blocks.segments]]
+    template = '❯'
+    background = 'transparent'
     type = 'text'
     style = 'plain'
-    foreground_templates = [
-      "{{if gt .Code 0}}red{{end}}",
-      "{{if eq .Code 0}}magenta{{end}}",
-    ]
-    background = 'transparent'
-    template = '❯'
+    foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']
 
-[transient_prompt]
-  foreground_templates = [
-    "{{if gt .Code 0}}red{{end}}",
-    "{{if eq .Code 0}}magenta{{end}}",
-  ]
-  background = 'transparent'
-  template = '❯ '
-
-[secondary_prompt]
-  foreground = 'magenta'
-  background = 'transparent'
-  template = '❯❯ '
+    [blocks.segments.properties]
+      cache_duration = 'none'
