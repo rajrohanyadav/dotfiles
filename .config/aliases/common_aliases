@@ -1,11 +1,25 @@
+alias ll='ls -latr'
+
+# Nvim
 alias vim=nvim
-alias vg=vagrant
+
+# K8s
 alias kc=kubectl
+
+# Docker compose
 alias dcomu='docker compose up -d'
 alias dcomd='docker compose down'
-alias ll='ls -latr'
+
 # vagrant
+alias vg=vagrant
 alias vgu='vg up --provider=parallels'
 alias vgd='vg destroy'
 alias vgdf='vg destroy -f'
+
+# JAVA
+jdk() {
+    version=$1
+    export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
+    java -version
+}
 
