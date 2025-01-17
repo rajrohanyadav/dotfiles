@@ -4,6 +4,9 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# Load ZProfile file - Seems it is not loaded by default :(
+source ~/.zprofile
+
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/clean.toml)"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -110,3 +113,6 @@ pathadd() {
     fi
 }
 
+
+# Created by `pipx` on 2025-01-17 05:18:42
+export PATH="$PATH:/Users/rohanyadav/.local/bin"
