@@ -3,13 +3,13 @@ alias aws-profile='export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.a
 
 # EC2
 aws-list-ec2-with-name() {
-  aws ec2 describe-instances --filters "Name=tag:Name,Values=*'"$1"'*" --query "Reservations[*].Instances[*].{InstanceID:InstanceId,Name:Tags[?Key=='Name']|[0].Value,State:State.Name,PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress}" --output table
+  aws ec2 describe-instances --filters "Name=tag:Name,Values=*"$1"*" --query "Reservations[*].Instances[*].{InstanceID:InstanceId,Name:Tags[?Key=='Name']|[0].Value,State:State.Name,PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress}" --output table
 }
 
-aws-start-instance {
-  aws ec2 start-instances --instance-ids '"$1"'
+aws-start-ec2() {
+  aws ec2 start-instances --instance-ids "$1"
 }
 
-aws-stop-instance {
-  aws ec2 stop-instances --instance-ids '"$1"'
+aws-stop-ec2() {
+  aws ec2 stop-instances --instance-ids "$1"
 }
