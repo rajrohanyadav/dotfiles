@@ -3,4 +3,4 @@ source ~/.config/aliases/docker_aliases
 source ~/.config/aliases/git_aliases
 source ~/.config/aliases/common_aliases
 source ~/.config/aliases/aws_aliases
-
+source ~/.config/aliases/k8s_aliases
