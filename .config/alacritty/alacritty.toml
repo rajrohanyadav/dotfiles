@@ -1,5 +1,4 @@
 # theme = "Catppuccin"
-# "window.opacity" = 0.8
 
 [bell]
 animation = "EaseOutExpo"
@@ -48,7 +47,7 @@ foreground = "0xD9E0EE"
 TERM = "xterm-256color"
 
 [font]
-size = 20
+size = 16
 
 [font.bold]
 family = "JetBrainsMono Nerd Font"
@@ -94,6 +93,7 @@ decorations = "full"
 dynamic_title = true
 option_as_alt = "Both"
 startup_mode = "Maximized"
+opacity = 0.9
 
 [window.dimensions]
 columns = 160
