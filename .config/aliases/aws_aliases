@@ -13,3 +13,93 @@ aws-start-ec2() {
 aws-stop-ec2() {
   aws ec2 stop-instances --instance-ids "$1"
 }
+
+aws-list-ami-with-name() {
+  aws ec2 describe-images --filters "Name=name,Values=*"$1"*"$2"*" "Name=state,Values=available" --include-deprecated --output table --query 'Images[*].[ImageId, Name, CreationDate]'
+}
+
+aws-create-instance-ohai() {
+  aws ec2 run-instances --image-id "ami-04f167a56786e4b09" --instance-type "t2.micro" --key-name "ohai" --block-device-mappings '{"DeviceName":"/dev/sda1","Ebs":{"Encrypted":true,"DeleteOnTermination":true,"Iops":3000,"KmsKeyId":"alias/aws/ebs","SnapshotId":"snap-00576a29f5cb985fe","VolumeSize":48,"VolumeType":"gp3","Throughput":125}}' --network-interfaces '{"SubnetId":"subnet-0c2046d7a0595aa2c","AssociatePublicIpAddress":false,"DeviceIndex":0,"Groups":["sg-075f379cc5612e984"]}' --credit-specification '{"CpuCredits":"standard"}' --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"'$1'"}]}' --metadata-options '{"HttpEndpoint":"enabled","HttpPutResponseHopLimit":2,"HttpTokens":"required"}' --private-dns-name-options '{"HostnameType":"ip-name","EnableResourceNameDnsARecord":false,"EnableResourceNameDnsAAAARecord":false}' --count "1"
+}
+
+# EC2 list all instances
+aws-list-ec2() {
+  aws ec2 describe-instances --query "Reservations[*].Instances[*].{InstanceID:InstanceId,Name:Tags[?Key=='Name']|[0].Value,State:State.Name,Type:InstanceType,PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress}" --output table
+}
+
+# EKS
+aws-list-eks() {
+  aws eks list-clusters --query "clusters" --output table
+}
+
+aws-list-eks-with-name() {
+  aws eks list-clusters --query "clusters[?contains(@, '$1')]" --output table
+}
+
+# ECS
+aws-list-ecs() {
+  aws ecs list-clusters --query "clusterArns" --output table
+}
+
+aws-list-ecs-with-name() {
+  aws ecs list-clusters --query "clusterArns[?contains(@, '$1')]" --output table
+}
+
+aws-list-ecs-services() {
+  aws ecs list-services --cluster "$1" --query "serviceArns" --output table
+}
+
+# EFS
+aws-list-efs() {
+  aws efs describe-file-systems --query "FileSystems[*].{FileSystemId:FileSystemId,Name:Tags[?Key=='Name']|[0].Value,State:LifeCycleState,SizeInBytes:SizeInBytes.Value}" --output table
+}
+
+aws-list-efs-with-name() {
+  aws efs describe-file-systems --query "FileSystems[?Tags[?Key=='Name' && contains(Value, '$1')]].{FileSystemId:FileSystemId,Name:Tags[?Key=='Name']|[0].Value,State:LifeCycleState,SizeInBytes:SizeInBytes.Value}" --output table
+}
+
+# VPC
+aws-list-vpc() {
+  aws ec2 describe-vpcs --query "Vpcs[*].{VpcId:VpcId,Name:Tags[?Key=='Name']|[0].Value,State:State,CidrBlock:CidrBlock}" --output table
+}
+
+aws-list-vpc-with-name() {
+  aws ec2 describe-vpcs --filters "Name=tag:Name,Values=*$1*" --query "Vpcs[*].{VpcId:VpcId,Name:Tags[?Key=='Name']|[0].Value,State:State,CidrBlock:CidrBlock}" --output table
+}
+
+# Subnets
+aws-list-subnet() {
+  aws ec2 describe-subnets --query "Subnets[*].{SubnetId:SubnetId,Name:Tags[?Key=='Name']|[0].Value,VpcId:VpcId,CidrBlock:CidrBlock,AvailabilityZone:AvailabilityZone,State:State}" --output table
+}
+
+aws-list-subnet-with-name() {
+  aws ec2 describe-subnets --filters "Name=tag:Name,Values=*$1*" --query "Subnets[*].{SubnetId:SubnetId,Name:Tags[?Key=='Name']|[0].Value,VpcId:VpcId,CidrBlock:CidrBlock,AvailabilityZone:AvailabilityZone,State:State}" --output table
+}
+
+# Security Groups
+aws-list-sg() {
+  aws ec2 describe-security-groups --query "SecurityGroups[*].{GroupId:GroupId,GroupName:GroupName,Description:Description,VpcId:VpcId}" --output table
+}
+
+aws-list-sg-with-name() {
+  aws ec2 describe-security-groups --filters "Name=group-name,Values=*$1*" --query "SecurityGroups[*].{GroupId:GroupId,GroupName:GroupName,Description:Description,VpcId:VpcId}" --output table
+}
+
+# Network Interfaces
+aws-list-nic() {
+  aws ec2 describe-network-interfaces --query "NetworkInterfaces[*].{NetworkInterfaceId:NetworkInterfaceId,Description:Description,PrivateIpAddress:PrivateIpAddress,Status:Status,VpcId:VpcId,SubnetId:SubnetId}" --output table
+}
+
+aws-list-nic-with-name() {
+  aws ec2 describe-network-interfaces --filters "Name=description,Values=*$1*" --query "NetworkInterfaces[*].{NetworkInterfaceId:NetworkInterfaceId,Description:Description,PrivateIpAddress:PrivateIpAddress,Status:Status,VpcId:VpcId,SubnetId:SubnetId}" --output table
+}
+
+# EBS Volumes
+aws-list-volumes() {
+  aws ec2 describe-volumes --query "Volumes[*].{VolumeId:VolumeId,Name:Tags[?Key=='Name']|[0].Value,Size:Size,State:State,VolumeType:VolumeType,AvailabilityZone:AvailabilityZone}" --output table
+}
+
+aws-list-volumes-with-name() {
+  aws ec2 describe-volumes --filters "Name=tag:Name,Values=*$1*" --query "Volumes[*].{VolumeId:VolumeId,Name:Tags[?Key=='Name']|[0].Value,Size:Size,State:State,VolumeType:VolumeType,AvailabilityZone:AvailabilityZone}" --output table
+}
+
