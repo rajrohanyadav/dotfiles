@@ -5,7 +5,7 @@
 local M = {}
 
 M.base46 = {
-    theme = "catppuccin",
+    theme = "onedark",
 
     hl_override = {
         Comment = {
@@ -14,7 +14,8 @@ M.base46 = {
         ["@comment"] = {
             italic = true
         }
-    }
+    },
+    theme_toggle = { "onedark", "one_light" },
 }
 
 -- M.nvdash = { load_on_startup = true }
