@@ -1,4 +1,7 @@
-alias ll='ls -latr'
+# alias ll='ls -latr'
+alias ls='eza -l --group --icons --header --git'
+alias la='eza -la --group --icons --header --git'
+alias lt='eza -lT --group --icons --header --git'
 
 # Nvim
 alias vim=nvim
@@ -22,4 +25,3 @@ jdk() {
     export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
     java -version
 }
-
