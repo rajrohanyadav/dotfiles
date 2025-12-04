@@ -113,6 +113,8 @@ pathadd() {
     fi
 }
 
+# Go
+export PATH="$PATH:$(go env GOROOT)/bin"
 
 # Created by `pipx` on 2025-01-17 05:18:42
 export PATH="$PATH:/Users/rohanyadav/.local/bin"
