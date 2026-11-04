@@ -25,6 +25,14 @@ return {
   },
   { import = "nvchad.blink.lazyspec" },
   {
+    -- base46 v3 renamed IblChar/IblScopeChar to IblIndent/IblScope; NvChad v2.5 still uses the old names
+    "lukas-reineke/indent-blankline.nvim",
+    opts = {
+      indent = { highlight = "IblIndent" },
+      scope = { highlight = "IblScope" },
+    },
+  },
+  {
     -- NvChad v2.5 still targets the archived master branch; override with the main rewrite
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
