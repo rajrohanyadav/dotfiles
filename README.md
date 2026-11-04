@@ -1,32 +1,49 @@
 # Dotfiles
-Basic configurations for me.
+Basic configurations for me. Managed with [GNU Stow](https://www.gnu.org/software/stow/): the repo mirrors `~`, and stow symlinks each file into place.
 
-## Steps to follow
-
-##### Install homebrew
+## Setup
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-##### Install brew packages
-```bash
-brew install jq stow colima go docker uv k9s tilt wget eza kubernetes-cli neovim tmux zoxide fzf oh-my-posh zsh-autosuggestions zsh-syntax-highlighting
+git clone git@github.com:rajrohanyadav/dotfiles.git ~/dotfiles
+~/dotfiles/install.sh
 ```
 
+`install.sh` installs Homebrew if missing, runs `brew bundle` against the [Brewfile](Brewfile), then stows everything into `~`. It is safe to re-run. Stow stops on conflicts rather than overwriting, so move any existing config out of the way first.
+
+Manual equivalents:
 ```bash
-brew install --cask alacritty brave-browser firefox font-jetbrains-mono-nerd-font maccy obsidian protonvpn visual-studio-code
+brew bundle --file=~/dotfiles/Brewfile
+cd ~/dotfiles && stow --restow .
 ```
 
-##### Clone this repo in home path (`~`)
-```bash
-cd ~
-git clone git@github.com:rajrohanyadav/dotfiles.git
-```
+## What's in here
+| Path | Tool |
+| --- | --- |
+| `.config/nvim` | Neovim (NvChad v2.5) |
+| `.config/herdr` | [herdr](https://herdr.dev) terminal workspace manager (replaces tmux) |
+| `.config/alacritty`, `.config/itermcolors` | Terminal emulators, Catppuccin themes |
+| `.config/ohmyposh` | Shell prompt |
+| `.config/aliases` | Shell aliases, sourced from `.zshrc` |
+| `.zshrc`, `.zprofile`, `.bashrc` | Shell config |
 
-##### Stow the configurations
-```bash
-cd ~/dotfiles
-stow . --adapt
-```
+Stow ignores `README.md`, `Brewfile` and `install.sh` (see `.stow-local-ignore`).
 
-# TODO
-- [ ] Move brew packages to Brewfile
+## Machine-local settings and secrets
+`.zprofile` sources `~/.zprofile.local` if it exists. Put tokens such as `HOMEBREW_ARTIFACTORY_TOKEN` there. `*.local` files are gitignored.
+
+## herdr
+The prefix is `ctrl+b`. Press `prefix+?` for all bindings.
+
+| Action | Key |
+| --- | --- |
+| New tab | `prefix+c` |
+| Split right / down | `prefix+v` / `prefix+minus` |
+| Move between panes | `prefix+h/j/k/l` |
+| Detach | `prefix+q` |
+
+Edit `~/.config/herdr/config.toml`, then `herdr config check` and `herdr server reload-config`. Only `config.toml` is tracked; sockets, logs and session state in that directory are gitignored.
+
+## Neovim
+First launch installs plugins with lazy.nvim and treesitter parsers (needs `tree-sitter-cli`, installed by the Brewfile). Formatters (`stylua`, `black`, `isort`, `prettier`) and `golangci-lint` come from the Brewfile; language servers are installed through Mason.
+
+## Adding a package
+Add it to the Brewfile. To see what is installed but not listed: `brew bundle cleanup --file=Brewfile` (lists only; add `--force` to uninstall).
